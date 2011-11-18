@@ -1,0 +1,42 @@
+#units div.unit {
+    position: absolute;
+    top: 0;
+    margin: 0;
+    padding: 0;
+    z-index: 101;
+    width: 72px;
+    height: 72px;
+}
+
+*, html, body {
+    margin: 0;
+    padding: 0;
+}
+
+#units div.unit div div {
+    width: 72px;
+    height: 72px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#units div.unit div div div.data {
+    display: none;
+}
+
+#units div.unit div div.unitColor-red {
+    background: transparent url('../../images/other/unitColor/red.png') no-repeat;
+}
+
+#units div.unit div div.unitColor-red.selected {
+    background: transparent url('../../images/other/unitColor/red-selected.png') no-repeat;
+}
+
+#units div.unit div div.unitColor-green {
+    background: transparent url('../../images/other/unitColor/green.png') no-repeat;
+}
+
+#units div.unit div div.human-pikeman {
+    background: transparent url('../../images/units/humans/pikeman.png') no-repeat;
+}

@@ -1,0 +1,46 @@
+{block head}
+<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/map/terrain.css" type="text/css">
+<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/map/units.css" type="text/css">
+<script type="text/javascript">
+var moveUrl = {link move!};
+</script>
+<script type="text/javascript" src="{$basePath}/js/map/base.js"></script>
+<script type="text/javascript" src="{$basePath}/js/ajax.js"></script>
+{/block}
+
+{block content}
+
+<div id="playground">
+    {* ROW1 left: 54px top: 36px;*}
+    {foreach $mapgrounds as $mapground}
+    <div class="{$mapground[datName]} ground {$mapground[x]}a{$mapground[y]}" id="{$mapground[id]}" style="top: {$mapground[top]}px; left: {$mapground[left]}px;"></div>
+    {/foreach}
+    <img src="{$basePath}/images/terrain/hover.png" style="display: none; position: absolute; z-index: 9999;" id="mapHover">
+</div>
+    
+    {*!!!!!!!!!!UNITS!!!!!!!!!!*}
+<div id="units" n:snippet="units">
+    {foreach $units as $color => $unit}
+        <div id="{$color}">
+            <div class="unit {$unit["hero"]["x"]}a{$unit["hero"]["y"]}" id="unit{$unit["hero"]["id"]}" style="top: {$unit["hero"]["top"]}px; left: {$unit["hero"]["left"]}px;">
+                <div>
+                    <div class="unitColor-{$color}"></div>
+                    <div class="unitImg hero {$unit["hero"]["unittype"]["datName"]}">
+                        <div class="movement data">{$unit["hero"]["unittype"]["movement"]}</div>
+                    </div>
+                </div>
+            </div>
+            {foreach $unit[units] as $u}
+            <div class="unit {$u["x"]}a{$u["y"]}" id="unit{$u["id"]}" style="top: {$u["top"]}px; left: {$u["left"]}px;">
+                 <div>
+                     <div class="unitColor-{$color}"></div>
+                     <div class="unitImg {$u["unittype"]["datName"]}">
+                        <div class="movement data">{$u["unittype"]["movement"]}</div>
+                     </div>
+                </div>
+             </div>
+            {/foreach}
+        </div>
+    {/foreach}
+</div>
+{/block}

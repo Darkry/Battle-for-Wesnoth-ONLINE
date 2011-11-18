@@ -1,0 +1,81 @@
+#playground div {
+    width: 72px;
+    height: 72px;
+    z-index: 100;
+    position: absolute;
+}
+
+#playground div.disabled {
+    z-index: 150;
+    background: transparent url('../../images/other/ground-disabled.png') top center no-repeat;
+}
+
+#playground div.path {
+    z-index: 150;
+    background: transparent url('../../images/other/path.png') top center no-repeat;
+}
+ 
+#playground div.grass1.ground {
+    background: transparent url('../../images/terrain/flat/grass1.png') top center no-repeat;
+}
+
+#playground div.grass2.ground {
+    background: transparent url('../../images/terrain/flat/grass2.png') top center no-repeat;
+}
+
+#playground div.grass3.ground {
+    background: transparent url('../../images/terrain/flat/grass3.png') top center no-repeat;
+}
+
+#playground div.grass4.ground {
+    background: transparent url('../../images/terrain/flat/grass4.png') top center no-repeat;
+}
+
+#playground div.grass5.ground {
+    background: transparent url('../../images/terrain/flat/grass5.png') top center no-repeat;
+}
+
+#playground div.grass6.ground {
+    background: transparent url('../../images/terrain/flat/grass6.png') top center no-repeat;
+}
+
+#playground div.grass7.ground {
+    background: transparent url('../../images/terrain/flat/grass7.png') top center no-repeat;
+}
+
+#playground div.grass8.ground {
+    background: transparent url('../../images/terrain/flat/grass8.png') top center no-repeat;
+}
+
+
+
+#playground div.grass-rocks1.ground {
+    background: transparent url('../../images/terrain/flat/grass-rocks1.png') top center no-repeat;
+}
+
+#playground div.grass-rocks2.ground {
+    background: transparent url('../../images/terrain/flat/grass-rocks2.png') top center no-repeat;
+}
+
+
+
+
+#playground div.castleGround.ground {
+    background: transparent url('../../images/terrain/castle/ground.png') top center no-repeat;
+}
+
+#playground div.castleTower.ground {
+    background: transparent url('../../images/terrain/castle/tower.png') top center no-repeat;
+}
+
+
+#playground div.village1.ground {
+    background: transparent url('../../images/terrain/village/village1.png') top center no-repeat;
+}
+
+#playground div.village2.ground {
+    background: transparent url('../../images/terrain/village/village2.png') top center no-repeat;
+}
+
+
+
