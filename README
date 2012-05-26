@@ -1,1 +1,3 @@
 Battle for Wesnoth ONLINE - first development version (0.1 alpha)
+
+Experimental implementation of A* algorithm for pathfinding.
