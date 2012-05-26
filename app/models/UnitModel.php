@@ -20,5 +20,15 @@ class UnitModel extends \Model {
         return \dibi::update("mapunit", $args)->where("id = %i",$unitId)->execute();
     }
     
+    public static function selectBlockedFields($mapId) {
+        $result = \dibi::select("x,y")->where("map_id = %i", $mapId)->fetchAll();
+        $return = array();
+        foreach($result as $field) {
+            if(!isset($return[$result["x"]])) $return[$result["x"]] = array();
+            
+            $return[$result["x"]][$result["y"]] = TRUE;
+        }
+        return $return;
+    }
 }
 

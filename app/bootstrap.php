@@ -34,7 +34,7 @@ $router = $container->router;
 $router[] = new Route('index.php', 'Front:MapView:default', Route::ONE_WAY);
 $router[] = new Route('<presenter>[/<id>]', array(
     'module' => 'Front',
-    'presenter' => 'MapView',
+    'presenter' => 'Homepage',
     'action' => 'default',
 ));
 

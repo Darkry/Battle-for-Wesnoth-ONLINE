@@ -48,8 +48,10 @@ class MapViewPresenter extends \BasePresenter {
         return PlayerModel::getPlayersFromMap($map_id);
     }
     
+    //x jde šikmo dolu vpravo (směrem)
+    //y jde šikmo dolu vlevo
     public function getCoor($x, $y) {
-        $i = (($x%2)==0 ? 36 : 0 );
+        $i = ($x%2)==0 ? 36 : 0;
         $result = array();
         $result["x"] = ($x-1) * 54;
         $result["y"] = (($y -1) * 72)+$i;
@@ -59,10 +61,16 @@ class MapViewPresenter extends \BasePresenter {
     public function renderMap($id) {
   
         $mapgrounds = MapModel::selectAllGroundsFromMap($id);  
-            
+        
+        $highest_x = 0;
+        $highest_y = 0;
+        
         $this->template->mapgrounds = array();
         foreach ($mapgrounds as $mapground) {
-                
+           
+            if($mapground["x"] > $highest_x) $highest_x = $mapground["x"];
+            if($mapground["y"] > $highest_y) $highest_y = $mapground["y"];
+            
            $groundtype = MapModel::selectGroundTypeById($mapground["groundtype_id"]);    
            $grounds = array();
            foreach(MapModel::selectGroundByGroundtype($groundtype["id"]) as $ground) {
@@ -78,25 +86,25 @@ class MapViewPresenter extends \BasePresenter {
                  "top" => $coor["y"],
                  "left" => $coor["x"],
                  "x" => $mapground["x"],
-                "y" => $mapground["y"]
+                 "y" => $mapground["y"]
             );
+            
+            $this->template->mapSize = array("x" => $highest_x, "y" => $highest_y);
         }
     }
 
     public function handleMove($unitId, $tox, $toy) {
         $unitId = str_replace("unit","",$unitId);
         $unitInfo = UnitModel::selectUnitInfo($unitId);
-        
-        $toVisit = array(
-            0 => array(
-            "x" => $unitInfo["x"],
-            "y" => $unitInfo["y"],
-            "dist" => 0
-                )
-        );
-        $need = $tox."a".$toy;
+
         $movement = $unitInfo["movement"];
-        if($this->markVisit(Array(), $toVisit, $movement, $need) == true) {
+        
+        $astar = new GameLogic\AStar();
+        $astar->setBlockedFields = UnitModel::selectBlockedFields($this->getParam("id"));
+        
+        $pathLength = $astar->getPathLength($unitInfo["x"], $unitInfo["y"], $tox, $toy);
+        
+       if($pathLength <= $movement) {
             UnitModel::moveUnit($unitId, $tox, $toy);
             $this->invalidateControl("units");
         }
@@ -124,39 +132,6 @@ class MapViewPresenter extends \BasePresenter {
             $returnVal[6] = Array($x-1,$y*1);
         }
         return $returnVal;
-    }
-    
-    public function markVisit($visited, $toVisit, $movement, $need) {
-         if(count($toVisit) == 0) {
-             return false; 
-         }
-         $visit = array_shift($toVisit);
-         $index = count($visited);
-         $visited[$index] = $visit["x"]."a".$visit["y"];
-         if($visited[$index] == $need) {
-             return true;
-         }
-         if($visit["dist"] > $movement) {
-             die("mov!");
-             return false;
-         }
-         
-         if($visit["dist"] < $movement) {
-         $neighbours = $this->getNeighbour($visit["x"], $visit["y"]);
-         $visitedString = implode(",", $visited);
-         
-         for($i = 1; $i <= count($neighbours); $i++) {
-             $index = count($toVisit);
-             $needle = $neighbours[$i][0]."a".$neighbours[$i][1];
-             if(strpos($visitedString, $needle) == FALSE) {
-                $toVisit[$index] = Array();
-                $toVisit[$index]["x"] = $neighbours[$i][0];
-                $toVisit[$index]["y"] = $neighbours[$i][1];
-                $toVisit[$index]["dist"] = $visit["dist"] + 1;
-             }
-         }
-         }
-        return $this->markVisit($visited, $toVisit, $movement, $need);
     }
 
 }

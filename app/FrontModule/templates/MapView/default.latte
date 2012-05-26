@@ -2,9 +2,29 @@
 <link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/map/terrain.css" type="text/css">
 <link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/map/units.css" type="text/css">
 <script type="text/javascript">
+    // function found on developerfusion.com
+function MultiDimensionalArray(iRows,iCols) {
+    var i;
+    var j;
+    var a = new Array(iRows);
+    for (i=0; i < iRows; i++) {
+        a[i] = new Array(iCols);
+        for (j=0; j < iCols; j++) {
+            a[i][j] = "";
+        }
+    }
+    return(a);
+}
+	
+    
 var moveUrl = {link move!};
+
+var mapsize_x = {$mapSize["x"]};
+var mapsize_y = {$mapSize["y"]};
 </script>
+<script type="text/javascript" src="{$basePath}/js/map/astar.js"></script>
 <script type="text/javascript" src="{$basePath}/js/map/base.js"></script>
+
 <script type="text/javascript" src="{$basePath}/js/ajax.js"></script>
 {/block}
 
@@ -13,16 +33,17 @@ var moveUrl = {link move!};
 <div id="playground">
     {* ROW1 left: 54px top: 36px;*}
     {foreach $mapgrounds as $mapground}
-    <div class="{$mapground[datName]} ground {$mapground[x]}a{$mapground[y]}" id="{$mapground[id]}" style="top: {$mapground[top]}px; left: {$mapground[left]}px;"></div>
+    <div class="{$mapground[datName]} ground {$mapground[x]}a{$mapground[y]}" id="{$mapground[id]}" style="top: {$mapground[top]}px; left: {$mapground[left]}px;">
+    </div>
     {/foreach}
-    <img src="{$basePath}/images/terrain/hover.png" style="display: none; position: absolute; z-index: 9999;" id="mapHover">
+    <img src="{$basePath}/images/terrain/hover.png" style="display: none; position: absolute; z-index: 9999;" id="mapHover" alt="">
 </div>
     
     {*!!!!!!!!!!UNITS!!!!!!!!!!*}
 <div id="units" n:snippet="units">
     {foreach $units as $color => $unit}
         <div id="{$color}">
-            <div class="unit {$unit["hero"]["x"]}a{$unit["hero"]["y"]}" id="unit{$unit["hero"]["id"]}" style="top: {$unit["hero"]["top"]}px; left: {$unit["hero"]["left"]}px;">
+            <div class="unit {$unit["hero"]["x"]}a{$unit["hero"]["y"]}" id="unit{$unit["hero"]["x"]}a{$unit["hero"]["y"]}" style="top: {$unit["hero"]["top"]}px; left: {$unit["hero"]["left"]}px;" uid="{$unit["hero"]["id"]}">
                 <div>
                     <div class="unitColor-{$color}"></div>
                     <div class="unitImg hero {$unit["hero"]["unittype"]["datName"]}">
@@ -31,7 +52,7 @@ var moveUrl = {link move!};
                 </div>
             </div>
             {foreach $unit[units] as $u}
-            <div class="unit {$u["x"]}a{$u["y"]}" id="unit{$u["id"]}" style="top: {$u["top"]}px; left: {$u["left"]}px;">
+            <div class="unit {$u["x"]}a{$u["y"]}" id="unit{$u["x"]}a{$u["y"]}" style="top: {$u["top"]}px; left: {$u["left"]}px;" uid="{$u["id"]}">
                  <div>
                      <div class="unitColor-{$color}"></div>
                      <div class="unitImg {$u["unittype"]["datName"]}">
